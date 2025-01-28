@@ -1,0 +1,24 @@
+function [PS_EVCS, QS_EVCS, EVCS_info] = EVCS()
+
+powerFactor = 0.85;
+            %Charger Level	Charger Type	Maximum Power (kW)
+chargerData = [ 1           "Level 1"           1.44
+                2           "Level 2"           11.5
+                3           "Level 3"           96  ];
+
+%%        T1      T2       T3
+EVCS_1 = [10,     2,       1];
+EVCS_2 = [8 ,     4,       2];
+EVCS_3 = [6 ,     5,       2];
+EVCS_4 = [5 ,     7,       3];
+EVCS_5 = [2 ,     9,       3];
+EVCS_info = [EVCS_1; EVCS_2; EVCS_3; EVCS_4; EVCS_5];
+
+%% Calculate total real and reactive power
+TRP_EVCS1 = sum(str2double(chargerData(:, 3)) .* EVCS_1');
+TRP_EVCS2 = sum(str2double(chargerData(:, 3)) .* EVCS_2');
+TRP_EVCS3 = sum(str2double(chargerData(:, 3)) .* EVCS_3');
+TRP_EVCS4 = sum(str2double(chargerData(:, 3)) .* EVCS_4');
+TRP_EVCS5 = sum(str2double(chargerData(:, 3)) .* EVCS_5');
+PS_EVCS = [TRP_EVCS1 TRP_EVCS2 TRP_EVCS3 TRP_EVCS4 TRP_EVCS5];
+QS_EVCS = PS_EVCS * tan(acos(powerFactor));
